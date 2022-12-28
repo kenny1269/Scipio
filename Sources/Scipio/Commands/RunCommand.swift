@@ -28,7 +28,8 @@ extension Command {
         let artifacts = try Runner.build(
             dependencies: options.packages,
             platforms: Config.current.platforms,
-            force: options.force || buildOptions.forceBuild,
+            forceBuild: options.forceBuild || buildOptions.forceBuild,
+            forceUpload: options.forceUpload,
             skipClean: options.skipClean
         ).filter { artifact in
             if let packages = options.packages {
@@ -40,7 +41,7 @@ extension Command {
 
         let cachedArtifacts = try Runner.upload(
             artifacts: artifacts,
-            force: options.force || uploadOptions.forceUpload,
+            force: options.forceBuild || uploadOptions.forceUpload,
             skipClean: options.skipClean
         )
 
@@ -71,8 +72,11 @@ extension Command.Run {
         @Option(help: "Path to store and find build artifacts")
         var buildPath: String?
 
-        @Flag(help: "If true will force build and upload packages")
-        var force: Bool = false
+        @Flag(help: "If true will force build packages")
+        var forceBuild: Bool = false
+
+        @Flag(help: "If true will force upload packages")
+        var forceUpload: Bool = false
 
         @Flag(help: "If true will reuse existing artifacts")
         var skipClean: Bool = false

@@ -26,7 +26,8 @@ extension Command {
 
             let processorOptions = ProcessorOptions(
                 platforms: Config.current.platforms,
-                force: options.force || uploadOptions.forceUpload,
+                forceBuild: options.forceBuild,
+                forceUpload: options.forceUpload || uploadOptions.forceUpload,
                 skipClean: options.skipClean
             )
 
@@ -55,7 +56,7 @@ extension Command {
 
             let cachedArtifacts = try Runner.upload(
                 artifacts: artifacts,
-                force: options.force || uploadOptions.forceUpload,
+                force: options.forceUpload || uploadOptions.forceUpload,
                 skipClean: options.skipClean
             )
 

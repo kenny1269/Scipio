@@ -27,7 +27,8 @@ extension Command {
             _ = try Runner.build(
                 dependencies: options.packages,
                 platforms: Config.current.platforms,
-                force: options.force || buildOptions.forceBuild,
+                forceBuild: options.forceBuild || buildOptions.forceBuild,
+                forceUpload: options.forceUpload,
                 skipClean: options.skipClean
             )
 

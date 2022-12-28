@@ -99,7 +99,7 @@ extension DependencyProcessor {
                             .publisher
                             .setFailureType(to: Error.self)
                             .flatMap(maxPublishers: .max(2)) { productName -> AnyPublisher<String, Error> in
-                                if self.options.force {
+                                if self.options.forceBuild {
                                     return Just(productName)
                                         .setFailureType(to: Error.self)
                                         .eraseToAnyPublisher()
@@ -159,12 +159,14 @@ extension DependencyProcessor {
 
 public struct ProcessorOptions {
     public let platforms: [Platform]
-    public let force: Bool
+    public let forceBuild: Bool
+    public let forceUpload: Bool
     public let skipClean: Bool
 
-    public init(platforms: [Platform], force: Bool, skipClean: Bool) {
+    public init(platforms: [Platform], forceBuild: Bool, forceUpload: Bool, skipClean: Bool) {
         self.platforms = platforms
-        self.force = force
+        self.forceBuild = forceBuild
+        self.forceUpload = forceUpload
         self.skipClean = skipClean
     }
 }
